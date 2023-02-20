@@ -103,9 +103,23 @@ public class Main {
             }
             client.close();
             System.err.println("Client connection closed!");
+
           }
 
         }
+
+      } catch (Exception e) {
+        ServerSocket serverSocket = new ServerSocket(port);
+        Socket client = serverSocket.accept();
+        OutputStream clientOutput = client.getOutputStream();
+        FileInputStream file= new FileInputStream(dir + "/html/500.html");
+        clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
+        clientOutput.write("\r\n".getBytes());
+        clientOutput.write(file.readAllBytes());
+        clientOutput.flush();
+        serverSocket.close();
+        file.close();
+        client.close();
 
       }
 
