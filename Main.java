@@ -78,6 +78,7 @@ public class Main {
             } else if (resource.equalsIgnoreCase("/test")) {
               String str = String.format("<a href='http://127.0.0.1:%d/rick'><button>Visit Rick!</button></a>\r\n",
                   port);
+              // 302 Found
               file = new FileInputStream(dir + "/html/302.html");
               clientOutput.write("HTTP/1.1 302 Found\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
@@ -85,6 +86,7 @@ public class Main {
               clientOutput.write(str.getBytes());
 
             } else {
+              // 404 Not Found Error
               file = new FileInputStream(dir + "/html/404.html");
               clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
