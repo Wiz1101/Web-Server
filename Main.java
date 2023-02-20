@@ -79,10 +79,18 @@ public class Main {
               clientOutput.write(file.readAllBytes());
               clientOutput.flush();
             } else if (resource.equalsIgnoreCase("/test")) {
-              file = new FileInputStream(dir + "/html/302.html");
               clientOutput.write("HTTP/1.1 302 Found\r\n".getBytes());
-              String str = Integer.toString(port);
-              clientOutput.write("<a href='http://127.0.0.1:/''><button>Visit Test</button></a>\r\n".getBytes());
+              clientOutput.write("\r\n".getBytes());
+              clientOutput.write("<h1>Found</h1>".getBytes());
+              clientOutput.write("<p>The requested URL was found click here to redirect</p>".getBytes());
+              String str = String.format("<a href='http://127.0.0.1:%d/rick'><button>Visit Rick</button></a>\r\n",
+                  port);
+              clientOutput.write(str.getBytes());
+              clientOutput.write("\r\n".getBytes());
+              clientOutput.flush();
+            } else if (resource.equalsIgnoreCase("/rick")) {
+              file = new FileInputStream(dir + "/html/302.html");
+              clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
               clientOutput.flush();
@@ -93,7 +101,6 @@ public class Main {
               clientOutput.write(file.readAllBytes());
               clientOutput.flush();
             }
-            file.close();
             client.close();
             System.err.println("Client connection closed!");
           }
