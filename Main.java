@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Main {
+  
+  
 
   public static void main(String[] args) throws IOException {
     int port = 0;
@@ -73,16 +75,16 @@ public class Main {
                 clientOutput.write("\r\n".getBytes());
                 clientOutput.write(file.readAllBytes());
               } else if (resource.equalsIgnoreCase("/test")) {
+                String str = String.format("<a href='http://127.0.0.1:%f/rick'><button>Visit Rick</button></a>\r\n",
+                port);
+                file = new FileInputStream(dir + "/html/302.html");
                 clientOutput.write("HTTP/1.1 302 Found\r\n".getBytes());
                 clientOutput.write("\r\n".getBytes());
-                clientOutput.write("<h1>Found</h1>".getBytes());
-                clientOutput.write("<p>The requested URL was found click here to redirect</p>".getBytes());
-                String str = String.format("<a href='http://127.0.0.1:%d/rick'><button>Visit Rick</button></a>\r\n",
-                    port);
+                clientOutput.write(file.readAllBytes());
                 clientOutput.write(str.getBytes());
-                clientOutput.write("\r\n".getBytes());
+
               } else if (resource.equalsIgnoreCase("/rick")) {
-                file = new FileInputStream(dir + "/html/302.html");
+                file = new FileInputStream(dir + "/html/rick.html");
                 clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
                 clientOutput.write("\r\n".getBytes());
                 clientOutput.write(file.readAllBytes());
@@ -92,8 +94,10 @@ public class Main {
                 clientOutput.write("\r\n".getBytes());
                 clientOutput.write(file.readAllBytes());
               }
+              file.close();
               client.close();
               System.err.println("Client connection closed!");
+
 
             } catch (Exception e) {
               // 500 Internal Server Error
