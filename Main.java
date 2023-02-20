@@ -17,7 +17,7 @@ public class Main {
         dir = args[1]; // Public Directory
         dir.toLowerCase();
         if (!dir.equals("public")) {
-          System.out.println("ERROR: Incorrect Directory!");
+          System.out.println("ERROR: Incorrect Directory Name!");
           break;
         }
       } catch (Exception e) {
