@@ -9,7 +9,7 @@ public class Test {
    public static void main(String[] args) throws Exception {
 
       // Define the URL of the endpoint you want to POST to
-      URL url = new URL("http://127.0.0.1:8888/api/endpoint");
+      URL url = new URL("http://127.0.0.1:8888/uploads");
 
       // Open a connection to the URL
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();

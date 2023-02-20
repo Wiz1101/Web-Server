@@ -78,6 +78,14 @@ public class Main {
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
               clientOutput.flush();
+            } else if (resource.equalsIgnoreCase("/test")) {
+              file = new FileInputStream(dir + "/html/302.html");
+              clientOutput.write("HTTP/1.1 302 Found\r\n".getBytes());
+              String str = Integer.toString(port);
+              clientOutput.write("<a href='http://127.0.0.1:/''><button>Visit Test</button></a>\r\n".getBytes());
+              clientOutput.write("\r\n".getBytes());
+              clientOutput.write(file.readAllBytes());
+              clientOutput.flush();
             } else {
               file = new FileInputStream(dir + "/html/404.html");
               clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
