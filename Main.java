@@ -51,42 +51,42 @@ public class Main {
 
           try {
             if (resource.equals("/archlinux")) {
-              file = new FileInputStream(dir + "/img/archlinux.png");
+              file = new FileInputStream(dir + "/archlinux.png");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/home")) {
-              file = new FileInputStream(dir + "/html/home.html");
+              file = new FileInputStream(dir + "/home.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/signup")) {
-              file = new FileInputStream(dir + "/html/signup.htm");
+              file = new FileInputStream(dir + "/signup.htm");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
-            } else if (resource.equalsIgnoreCase("/")) {
-              file = new FileInputStream(dir + "/html/index.html");
+            } else if (resource.equalsIgnoreCase("/index.html")) {
+              file = new FileInputStream(dir + "/first.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/rick")) {
-              file = new FileInputStream(dir + "/html/rick.html");
+              file = new FileInputStream(dir + "/rick.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/success")) {
-              file = new FileInputStream(dir + "/html/success.html");
+              file = new FileInputStream(dir + "/success.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/upload")) { // POST REQUEST
-              file = new FileInputStream(dir + "/html/upload.html");
+              file = new FileInputStream(dir + "/upload.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/500")) {
-              file = new FileInputStream(dir + "/html/500.html");
+              file = new FileInputStream(dir + "/500.html");
               clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
@@ -94,7 +94,7 @@ public class Main {
               String str = String.format("<a href='http://127.0.0.1:%d/rick'><button>Visit Rick!</button></a>\r\n",
                   port);
               // 302 Found
-              file = new FileInputStream(dir + "/html/302.html");
+              file = new FileInputStream(dir + "/302.html");
               clientOutput.write("HTTP/1.1 302 Found\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
@@ -106,7 +106,7 @@ public class Main {
               clientOutput.write(str.getBytes());
             } else {
               // 404 Not Found Error
-              file = new FileInputStream(dir + "/html/404.html");
+              file = new FileInputStream(dir + "/404.html");
               clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
@@ -117,7 +117,7 @@ public class Main {
 
           } catch (Exception e) {
             // 500 Internal Server Error
-            file = new FileInputStream(dir + "/html/500.html");
+            file = new FileInputStream(dir + "/500.html");
             clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
             clientOutput.write("\r\n".getBytes());
             clientOutput.write(file.readAllBytes());
