@@ -66,7 +66,7 @@ public class Main {
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/")) {
-              file = new FileInputStream(dir + "/html/first.html");
+              file = new FileInputStream(dir + "/html/index.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
