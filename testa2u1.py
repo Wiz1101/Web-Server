@@ -10,7 +10,7 @@ server = '127.0.0.1'
 port = 8888
 
 # Points to the files themselves
-dirbase = Path('./public')
+dirbase = Path('./web')
 
 # Allow for .htm solutions
 fe = '.html'
