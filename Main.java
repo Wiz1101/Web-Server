@@ -75,6 +75,17 @@ public class Main {
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
+            } else if (resource.equalsIgnoreCase("/500")) {
+              file = new FileInputStream(dir + "/html/500.html");
+              clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
+              clientOutput.write("\r\n".getBytes());
+              clientOutput.write(file.readAllBytes());
+            } else if (resource.equalsIgnoreCase("/uploads")) {
+              // TODO: POST METHOD
+              // file = new FileInputStream(dir + "/html/rick.html");
+              // clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
+              // clientOutput.write("\r\n".getBytes());
+              // clientOutput.write(file.readAllBytes());
             } else if (resource.equalsIgnoreCase("/test")) {
               String str = String.format("<a href='http://127.0.0.1:%d/rick'><button>Visit Rick!</button></a>\r\n",
                   port);
@@ -85,6 +96,10 @@ public class Main {
               clientOutput.write(file.readAllBytes());
               clientOutput.write(str.getBytes());
 
+            } else if (resource.equalsIgnoreCase("/test500")) {
+              String str = String.format("<a href='http://127.0.0.1:%f/rick'><button>Visit Rick!</button></a>\r\n",
+                  port);
+              clientOutput.write(str.getBytes());
             } else {
               // 404 Not Found Error
               file = new FileInputStream(dir + "/html/404.html");
@@ -92,7 +107,7 @@ public class Main {
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
             }
-            file.close();
+
             client.close();
             System.err.println("Client connection closed!");
 
