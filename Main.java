@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -13,13 +13,12 @@ public class Main {
     int port = 0; // PORT
     String dir = ""; // Public Directory
 
-
     while (true) {
       try {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
         dir.toLowerCase();
-        if (!dir.equals("public")) {
+        if (!dir.equals("web")) { // Directory as an argument
           System.out.println("ERROR: Incorrect Directory Name!");
           break;
         }
@@ -35,7 +34,6 @@ public class Main {
           System.out.println("Debug: got new message " + client.toString());
           InputStreamReader isr = new InputStreamReader(client.getInputStream());
           BufferedReader br = new BufferedReader(isr);
-
           StringBuilder request = new StringBuilder();
           String line; // Temp variable called line that holds one line at a time of our message
           line = br.readLine();
@@ -44,114 +42,68 @@ public class Main {
             line = br.readLine();
           }
 
-          System.out.println("--REQUEST--");
+          System.out.println("|------ REQUEST ------|");
           System.out.println(request);
           String firsline = request.toString().split("\n")[0];
           String resource = firsline.split(" ")[1];
           OutputStream clientOutput = client.getOutputStream();
           FileInputStream file;
 
+          
 
-          System.out.println("THIS IS  A RESOURCE\n");
-          System.out.println(resource);
-
-
+          // ~~ FILES ~~
           try {
-            try {
-              file = new FileInputStream(dir + resource);
+            File validateInput = new File(dir, resource);
+            if (!validateInput.getCanonicalPath().startsWith(dir)) {
+
+              
+              // process file
+            }
+            if (!resource.contains(".")) { // Index.html
+              file = new FileInputStream(dir + resource + "/index.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
               clientOutput.write("\r\n".getBytes());
               clientOutput.write(file.readAllBytes());
-              file.close();
-            } catch (FileNotFoundException e) {
-              // 404 Not Found Error
-              file = new FileInputStream(dir + "/404.html");
-              clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
+
+            } else if (resource.equals("/test.html")) { // Test for 500 Server Error
+              // Triggering internal Error
+              String str = String.format("<a href='http://127.0.0.1:%f/rick.html'><button>Visit Rick!</button></a>\r\n",
+                  port);
               clientOutput.write("\r\n".getBytes());
-              clientOutput.write(file.readAllBytes());
+              clientOutput.write(str.getBytes());
+            } else {
+              try {
+                System.out.println(dir + resource);
+                file = new FileInputStream(dir + resource);
+                clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
+                clientOutput.write("\r\n".getBytes());
+                clientOutput.write(file.readAllBytes());
+                file.close();
+              } catch (Exception e) {
+                // 404 Not Found Error
+                clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
+                clientOutput.write("\r\n".getBytes());
+                clientOutput.write("<title>404 Not Found</title>\r\n".getBytes());
+                clientOutput.write("<h1>Not Found</h1>".getBytes());
+                clientOutput.write("<p>The requested URL was not found on this server</p>".getBytes());
+                clientOutput.write("\r\n\r\n".getBytes());
+                clientOutput.flush();
+              }
             }
+
           } catch (Exception e) {
             // 500 Internal Server Error
-            file = new FileInputStream(dir + "/500.html");
-            clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
+            clientOutput.write("HTTP/1.1 500 Internal Server Error\r\n".getBytes());
             clientOutput.write("\r\n".getBytes());
-            clientOutput.write(file.readAllBytes());
+            clientOutput.write("<title>500 Internal Server Error</title>\r\n".getBytes());
+            clientOutput.write("<h1>Internal Server Error</h1>".getBytes());
+            clientOutput.write(
+                "<p>The server encountered an internal error or misconfiguration and was unable to complete your request.</p>"
+                    .getBytes());
+            clientOutput.write("\r\n\r\n".getBytes());
+            clientOutput.flush();
 
           }
-
-          // try {
-          //   if (resource.equals("/archlinux")) {
-          //     file = new FileInputStream(dir + "archlinux.png");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/home")) {
-          //     file = new FileInputStream(dir + "/home.html");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/signup")) {
-          //     file = new FileInputStream(dir + "/signup.htm");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/index.html")) {
-          //     file = new FileInputStream(dir + "/first.html");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/rick")) {
-          //     file = new FileInputStream(dir + "/rick.html");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/success")) {
-          //     file = new FileInputStream(dir + "/success.html");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/upload")) { // POST REQUEST
-          //     file = new FileInputStream(dir + "/upload.html");
-          //     clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/500")) {
-          //     file = new FileInputStream(dir + "/500.html");
-          //     clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   } else if (resource.equalsIgnoreCase("/test")) {
-          //     String str = String.format("<a href='http://127.0.0.1:%d/rick'><button>Visit Rick!</button></a>\r\n",
-          //         port);
-          //     // 302 Found
-          //     file = new FileInputStream(dir + "/302.html");
-          //     clientOutput.write("HTTP/1.1 302 Found\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //     clientOutput.write(str.getBytes());
-
-          //   } else if (resource.equalsIgnoreCase("/test500")) { // Generate an Error for 500
-          //     String str = String.format("<a href='http://127.0.0.1:%f/rick'><button>Visit Rick!</button></a>\r\n",
-          //         port);
-          //     clientOutput.write(str.getBytes());
-          //   } else {
-          //     // 404 Not Found Error
-          //     file = new FileInputStream(dir + "/404.html");
-          //     clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
-          //     clientOutput.write("\r\n".getBytes());
-          //     clientOutput.write(file.readAllBytes());
-          //   }
-          //   client.close();
-          //   System.err.println("Client connection closed!");
-
-          // } catch (Exception e) {
-          //   // 500 Internal Server Error
-          //   file = new FileInputStream(dir + "/500.html");
-          //   clientOutput.write("HTTP/1.1 500 Server Error\r\n".getBytes());
-          //   clientOutput.write("\r\n".getBytes());
-          //   clientOutput.write(file.readAllBytes());
-          // }
-
         }
 
       } catch (Exception e) {
@@ -160,4 +112,5 @@ public class Main {
 
     }
 
-}}
+  }
+}
