@@ -16,7 +16,7 @@ public class Main {
       try {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
-        if (dir.contains(".")) {
+        if (dir.contains(".")) { // Mitigating directory traversal
           System.out.println("ERROR: Not Allowed!");
           break;
         }
@@ -67,12 +67,13 @@ public class Main {
                 clientOutput.flush();
               }
 
-            } else if (resource.equals("/test.html")) { // Test for 500 Server Error
+            } else if (resource.equals("/test.html")) { // Test for 500 Internal Server Error
               // Triggering internal Error
-              String str = String.format("<a href='http://127.0.0.1:%f/rick.html'><button>Visit Rick!</button></a>\r\n",
-                  port);
+              int str = Integer.parseInt("A");
+              System.out.println(str);
+              // -------------------------
               clientOutput.write("\r\n".getBytes());
-              clientOutput.write(str.getBytes());
+
             } else {
               try {
                 file = new FileInputStream(dir + resource);
