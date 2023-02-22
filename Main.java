@@ -16,9 +16,8 @@ public class Main {
       try {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
-        dir.toLowerCase();
-        if (!dir.equals("public")) { // Directory as an argument
-          System.out.println("ERROR: Incorrect Directory Name!");
+        if (dir.contains(".")) {
+          System.out.println("ERROR: Not Allowed!");
           break;
         }
       } catch (Exception e) {
@@ -51,10 +50,22 @@ public class Main {
           // ~~ FILES ~~
           try {
             if (!resource.contains(".")) { // Index.html
-              file = new FileInputStream(dir + resource + "/index.html");
-              clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-              clientOutput.write("\r\n".getBytes());
-              clientOutput.write(file.readAllBytes());
+              try {
+                file = new FileInputStream(dir + resource + "/index.html");
+                clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
+                clientOutput.write("\r\n".getBytes());
+                clientOutput.write(file.readAllBytes());
+
+              } catch (Exception e) {
+                // 404 Not Found Error
+                clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
+                clientOutput.write("\r\n".getBytes());
+                clientOutput.write("<title>404 Not Found</title>\r\n".getBytes());
+                clientOutput.write("<h1>Not Found</h1>".getBytes());
+                clientOutput.write("<p>The requested URL was not found on this server</p>".getBytes());
+                clientOutput.write("\r\n\r\n".getBytes());
+                clientOutput.flush();
+              }
 
             } else if (resource.equals("/test.html")) { // Test for 500 Server Error
               // Triggering internal Error
