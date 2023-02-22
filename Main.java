@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,7 +17,7 @@ public class Main {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
         dir.toLowerCase();
-        if (!dir.equals("web")) { // Directory as an argument
+        if (!dir.equals("public")) { // Directory as an argument
           System.out.println("ERROR: Incorrect Directory Name!");
           break;
         }
