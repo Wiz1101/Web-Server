@@ -49,16 +49,8 @@ public class Main {
           OutputStream clientOutput = client.getOutputStream();
           FileInputStream file;
 
-          
-
           // ~~ FILES ~~
           try {
-            File validateInput = new File(dir, resource);
-            if (!validateInput.getCanonicalPath().startsWith(dir)) {
-
-              
-              // process file
-            }
             if (!resource.contains(".")) { // Index.html
               file = new FileInputStream(dir + resource + "/index.html");
               clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
@@ -73,7 +65,6 @@ public class Main {
               clientOutput.write(str.getBytes());
             } else {
               try {
-                System.out.println(dir + resource);
                 file = new FileInputStream(dir + resource);
                 clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
                 clientOutput.write("\r\n".getBytes());
