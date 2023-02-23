@@ -12,13 +12,17 @@ public class Main {
   public static void main(String[] args) throws IOException {
     int port; // PORT
     String dir; // Public Directory
-
     while (true) {
       try {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
+        File directory = new File(dir);
         if (dir.contains(".")) { // Mitigating directory traversal //TODO: mention
           System.out.println("ERROR: '.' in the name of the Directory is Not Allowed!");
+          System.out.println("* Example: Server 8888 public"); // TODO: mention
+          break;
+        } else if (!directory.isDirectory()){
+          System.out.println("ERROR: The directory does not exist. Such an embarrassment!");
           System.out.println("* Example: Server 8888 public"); // TODO: mention
           break;
         }
