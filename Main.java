@@ -41,7 +41,6 @@ public class Main {
             request.append(line + "\r\n");
             line = br.readLine();
           }
-
           System.out.println("|~~~~  REQUEST  ~~~~|");
           System.out.println(request);
           String firsline = request.toString().split("\n")[0];
