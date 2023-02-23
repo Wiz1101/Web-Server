@@ -62,12 +62,12 @@ public class Main {
                 File filename = new File(dir + resource + "/index.html");
 
                 file = new FileInputStream(filename);
-                String response = "HTTP/1.1 200 OK\r\n" +
+                String header = "HTTP/1.1 200 OK\r\n" +
                     "Content-Type: " + contentType + "\r\n" +
                     "Content-Length: " + filename.length() + "\r\n" +
                     "\r\n";
 
-                clientOutput.write(response.getBytes());
+                clientOutput.write(header.getBytes());
                 clientOutput.write(file.readAllBytes());
 
                 file.close();
@@ -97,12 +97,12 @@ public class Main {
                   contentType = "image/png";
                 }
                 file = new FileInputStream(filename);
-                String response = "HTTP/1.1 200 OK\r\n" +
+                String header = "HTTP/1.1 200 OK\r\n" +
                     "Content-Type: " + contentType + "\r\n" +
                     "Content-Length: " + filename.length() + "\r\n" +
                     "\r\n";
 
-                clientOutput.write(response.getBytes());
+                clientOutput.write(header.getBytes());
                 clientOutput.write(file.readAllBytes());
 
                 file.close();
