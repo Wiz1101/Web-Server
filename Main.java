@@ -17,23 +17,23 @@ public class Main {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
         File directory = new File(dir);
-        if (dir.contains(".")) { // Mitigating directory traversal //TODO: mention
+        if (dir.contains(".")) { // Mitigating directory traversal 
           System.out.println("ERROR: '.' in the name of the Directory is Not Allowed!");
-          System.out.println("* Example: Server 8888 public"); // TODO: mention
+          System.out.println("* Example: Server 8888 public");
           break;
         } else if (!directory.isDirectory()){
           System.out.println("ERROR: The directory does not exist. Such an embarrassment!");
-          System.out.println("* Example: Server 8888 public"); // TODO: mention
+          System.out.println("* Example: Server 8888 public");
           break;
         }
       } catch (Exception e) {
         System.out.println(e);
         System.out.println("ERROR: Not enough arguments provided or invalid argument!");
-        System.out.println("* Usage: epic_server [port] [serving_directory]"); // TODO: mention
+        System.out.println("* Usage: epic_server [port] [serving_directory]");
         break;
       }
       // ~~ SERVER ~~
-      try (ServerSocket serverSocket = new ServerSocket(port)) { // TODO: Include in screenshot
+      try (ServerSocket serverSocket = new ServerSocket(port)) {
         System.out.println("Server started.\n Listening for messages.");
         try (Socket client = serverSocket.accept()) {
           System.out.println("Debug: got new message " + client.toString());
@@ -46,7 +46,7 @@ public class Main {
             request.append(line + "\r\n");
             line = br.readLine();
           }
-          System.out.println("|~~~~  REQUEST  ~~~~|"); // TODO: mention that we are printing here in the terminal
+          System.out.println("|~~~~  REQUEST  ~~~~|");
           System.out.println(request);
           String firsline = request.toString().split("\n")[0];
           String resource = firsline.split(" ")[1];
@@ -59,7 +59,7 @@ public class Main {
           // ~~ FILES ~~
           try {
 
-            if (!resource.contains(".")) { // Index.html //TODO: mention
+            if (!resource.contains(".")) { // Index.html
 
               try {
                 File filename = new File(dir + resource + "/index.html");
@@ -77,7 +77,7 @@ public class Main {
 
               } catch (Exception e) {
                 // 404 Not Found Error
-                clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes()); //TODO: mention
+                clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
                 clientOutput.write("\r\n".getBytes());
                 clientOutput.write("<title>404 Not Found</title>\r\n".getBytes());
                 clientOutput.write("<h1>Not Found</h1>".getBytes());
@@ -122,7 +122,7 @@ public class Main {
               }
             }
  
-          } catch (Exception e) { //TODO: mention
+          } catch (Exception e) {
             // 500 Internal Server Error
             clientOutput.write("HTTP/1.1 500 Internal Server Error\r\n".getBytes());
             clientOutput.write("\r\n".getBytes());
