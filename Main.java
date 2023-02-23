@@ -10,14 +10,13 @@ import java.net.Socket;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    int port = 8888; // PORT
-    String dir = "public"; // Public Directory
+    int port; // PORT
+    String dir; // Public Directory
 
     while (true) {
       try {
-        // TODO: uncomment
-        // port = Integer.parseInt(args[0]); // PORT
-        // dir = args[1]; // Public Directory
+        port = Integer.parseInt(args[0]); // PORT
+        dir = args[1]; // Public Directory
         if (dir.contains(".")) { // Mitigating directory traversal
           System.out.println("ERROR: '.' in the name of the Directory is Not Allowed!");
           System.out.println("* Example: Server 8888 public");
