@@ -9,8 +9,8 @@ import java.net.Socket;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    int port = 0; // PORT
-    String dir = ""; // Public Directory
+    int port; // PORT
+    String dir; // Public Directory
 
     while (true) {
       try {
@@ -41,7 +41,6 @@ public class Main {
             request.append(line + "\r\n");
             line = br.readLine();
           }
-        
 
           System.out.println("|~~~~  REQUEST  ~~~~|");
           System.out.println(request);
@@ -50,30 +49,28 @@ public class Main {
           OutputStream clientOutput = client.getOutputStream();
           FileInputStream file;
 
-
-
           // Checking Content Type
           // try {
-          //   file = new FileInputStream(dir + resource);
-          //   String contentType = "text/html";
-          //   if (resource.endsWith(".png")) {
-          //     contentType = "image/png";
-          //   }
-          //   clientOutput.write(("content-type: " + contentType + "\r\n").getBytes());
-          //   clientOutput.write(("content-length: " + file.readAllBytes().length +
-          //       "\r\n").getBytes());
-          //   clientOutput.write("\r\n\r\n".getBytes());
-          //   clientOutput.flush();
-          //   file.close();
+          // file = new FileInputStream(dir + resource);
+          // String contentType = "text/html";
+          // if (resource.endsWith(".png")) {
+          // contentType = "image/png";
+          // }
+          // clientOutput.write(("content-type: " + contentType + "\r\n").getBytes());
+          // clientOutput.write(("content-length: " + file.readAllBytes().length +
+          // "\r\n").getBytes());
+          // clientOutput.write("\r\n\r\n".getBytes());
+          // clientOutput.flush();
+          // file.close();
           // } catch (Exception e) {
-          //   file = new FileInputStream(dir + "/index.html");
-          //   clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          //   clientOutput.write("\r\n".getBytes());
-          //   clientOutput.write(("content-type: " + "\r\n").getBytes());
-          //   clientOutput.write(("content-length: " + "\r\n").getBytes());
-          //   clientOutput.write("\r\n\r\n".getBytes());
-          //   clientOutput.flush();
-          //   file.close();
+          // file = new FileInputStream(dir + "/index.html");
+          // clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
+          // clientOutput.write("\r\n".getBytes());
+          // clientOutput.write(("content-type: " + "\r\n").getBytes());
+          // clientOutput.write(("content-length: " + "\r\n").getBytes());
+          // clientOutput.write("\r\n\r\n".getBytes());
+          // clientOutput.flush();
+          // file.close();
           // }
 
           // ~~ FILES ~~
