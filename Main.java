@@ -40,29 +40,42 @@ public class Main {
           while (!line.isBlank()) {
             request.append(line + "\r\n");
             line = br.readLine();
+            line = "content-type";
           }
+        
 
+          System.out.println("|~~~~  REQUEST  ~~~~|");
+          System.out.println(request);
           String firsline = request.toString().split("\n")[0];
           String resource = firsline.split(" ")[1];
           OutputStream clientOutput = client.getOutputStream();
           FileInputStream file;
 
-          // Checking Content Type
-          try {
-            file = new FileInputStream(dir + resource);
-            String contentType = "text/html";
-            if (resource.endsWith(".png")) {
-              contentType = "image/png";
-            }
-            request.append("content-type: " + contentType + "\r\n");
-            request.append("content-length: " + file.readAllBytes().length + "\r\n");
-            file.close();
-          } catch (Exception e) {
-            System.out.println("ERROR: Unable to detect!");
-          }
 
-          System.out.println("|------ REQUEST ------|");
-          System.out.println(request);
+
+          // Checking Content Type
+          // try {
+          //   file = new FileInputStream(dir + resource);
+          //   String contentType = "text/html";
+          //   if (resource.endsWith(".png")) {
+          //     contentType = "image/png";
+          //   }
+          //   clientOutput.write(("content-type: " + contentType + "\r\n").getBytes());
+          //   clientOutput.write(("content-length: " + file.readAllBytes().length +
+          //       "\r\n").getBytes());
+          //   clientOutput.write("\r\n\r\n".getBytes());
+          //   clientOutput.flush();
+          //   file.close();
+          // } catch (Exception e) {
+          //   file = new FileInputStream(dir + "/index.html");
+          //   clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
+          //   clientOutput.write("\r\n".getBytes());
+          //   clientOutput.write(("content-type: " + "\r\n").getBytes());
+          //   clientOutput.write(("content-length: " + "\r\n").getBytes());
+          //   clientOutput.write("\r\n\r\n".getBytes());
+          //   clientOutput.flush();
+          //   file.close();
+          // }
 
           // ~~ FILES ~~
           try {
@@ -86,7 +99,7 @@ public class Main {
 
             } else if (resource.equals("/test.html")) { // Test for 500 Internal Server Error
               // Triggering internal Error
-              int str = Integer.parseInt("A");
+              int str = Integer.parseInt("LNU");
               System.out.println(str);
               // -------------------------
               clientOutput.write("\r\n".getBytes());
