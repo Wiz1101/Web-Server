@@ -40,7 +40,6 @@ public class Main {
           while (!line.isBlank()) {
             request.append(line + "\r\n");
             line = br.readLine();
-            line = "content-type";
           }
         
 
