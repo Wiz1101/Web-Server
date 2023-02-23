@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,13 +10,14 @@ import java.net.Socket;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    int port; // PORT
-    String dir; // Public Directory
+    int port = 8888; // PORT
+    String dir = "public"; // Public Directory
 
     while (true) {
       try {
-        port = Integer.parseInt(args[0]); // PORT
-        dir = args[1]; // Public Directory
+        // TODO: uncomment
+        // port = Integer.parseInt(args[0]); // PORT
+        // dir = args[1]; // Public Directory
         if (dir.contains(".")) { // Mitigating directory traversal
           System.out.println("ERROR: '.' in the name of the Directory is Not Allowed!");
           System.out.println("* Example: Server 8888 public");
@@ -49,38 +51,27 @@ public class Main {
           FileInputStream file;
 
           // Checking Content Type
-          // try {
-          // file = new FileInputStream(dir + resource);
-          // String contentType = "text/html";
-          // if (resource.endsWith(".png")) {
-          // contentType = "image/png";
-          // }
-          // clientOutput.write(("content-type: " + contentType + "\r\n").getBytes());
-          // clientOutput.write(("content-length: " + file.readAllBytes().length +
-          // "\r\n").getBytes());
-          // clientOutput.write("\r\n\r\n".getBytes());
-          // clientOutput.flush();
-          // file.close();
-          // } catch (Exception e) {
-          // file = new FileInputStream(dir + "/index.html");
-          // clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-          // clientOutput.write("\r\n".getBytes());
-          // clientOutput.write(("content-type: " + "\r\n").getBytes());
-          // clientOutput.write(("content-length: " + "\r\n").getBytes());
-          // clientOutput.write("\r\n\r\n".getBytes());
-          // clientOutput.flush();
-          // file.close();
-          // }
+          String contentType = "text/html";
 
           // ~~ FILES ~~
           try {
+
             if (!resource.contains(".")) { // Index.html
+
               try {
-                file = new FileInputStream(dir + resource + "/index.html");
-                clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-                clientOutput.write("\r\n".getBytes());
+                File filename = new File(dir + resource + "/index.html");
+
+                file = new FileInputStream(filename);
+                String response = "HTTP/1.1 200 OK\r\n" +
+                    "Content-Type: " + contentType + "\r\n" +
+                    "Content-Length: " + filename.length() + "\r\n" +
+                    "\r\n";
+
+                clientOutput.write(response.getBytes());
                 clientOutput.write(file.readAllBytes());
+
                 file.close();
+
               } catch (Exception e) {
                 // 404 Not Found Error
                 clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
@@ -97,15 +88,25 @@ public class Main {
               int str = Integer.parseInt("LNU");
               System.out.println(str);
               // -------------------------
-              clientOutput.write("\r\n".getBytes());
+              clientOutput.write("\r\n\r\n".getBytes());
 
             } else {
               try {
-                file = new FileInputStream(dir + resource);
-                clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
-                clientOutput.write("\r\n".getBytes());
+                File filename = new File(dir + resource);
+                if (resource.endsWith(".png")) {
+                  contentType = "image/png";
+                }
+                file = new FileInputStream(filename);
+                String response = "HTTP/1.1 200 OK\r\n" +
+                    "Content-Type: " + contentType + "\r\n" +
+                    "Content-Length: " + filename.length() + "\r\n" +
+                    "\r\n";
+
+                clientOutput.write(response.getBytes());
                 clientOutput.write(file.readAllBytes());
+
                 file.close();
+
               } catch (Exception e) {
                 // 404 Not Found Error
                 clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
