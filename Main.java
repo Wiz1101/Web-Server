@@ -17,12 +17,14 @@ public class Main {
         port = Integer.parseInt(args[0]); // PORT
         dir = args[1]; // Public Directory
         if (dir.contains(".")) { // Mitigating directory traversal
-          System.out.println("ERROR: Not Allowed!");
+          System.out.println("ERROR: '.' in the name of the Directory is Not Allowed!");
+          System.out.println("* Example: Server 8888 public");
           break;
         }
       } catch (Exception e) {
         System.out.println(e);
-        System.out.println("ERROR: Please provide valid arguments!");
+        System.out.println("ERROR: Not enough arguments provided or invalid argument!");
+        System.out.println("* Usage: epic_server [port] [serving_directory]");
         break;
       }
       // ~~ SERVER ~~
@@ -40,12 +42,27 @@ public class Main {
             line = br.readLine();
           }
 
-          System.out.println("|------ REQUEST ------|");
-          System.out.println(request);
           String firsline = request.toString().split("\n")[0];
           String resource = firsline.split(" ")[1];
           OutputStream clientOutput = client.getOutputStream();
           FileInputStream file;
+
+          // Checking Content Type
+          try {
+            file = new FileInputStream(dir + resource);
+            String contentType = "text/html";
+            if (resource.endsWith(".png")) {
+              contentType = "image/png";
+            }
+            request.append("content-type: " + contentType + "\r\n");
+            request.append("content-length: " + file.readAllBytes().length + "\r\n");
+            file.close();
+          } catch (Exception e) {
+            System.out.println("ERROR: Unable to detect!");
+          }
+
+          System.out.println("|------ REQUEST ------|");
+          System.out.println(request);
 
           // ~~ FILES ~~
           try {
@@ -55,7 +72,7 @@ public class Main {
                 clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
                 clientOutput.write("\r\n".getBytes());
                 clientOutput.write(file.readAllBytes());
-
+                file.close();
               } catch (Exception e) {
                 // 404 Not Found Error
                 clientOutput.write("HTTP/1.1 404 Not Found\r\n".getBytes());
