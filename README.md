@@ -1,4 +1,4 @@
-# WebServerJava
+# Web-Server
 This is a simple implementation of http WebServer in Java
 
 You can run the app using Commands: 
